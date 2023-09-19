@@ -1,0 +1,68 @@
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: A plugin for ChatGPT that analyzes emails, extracts indicators, and
+    provides analysts a streamlined process to identify phishing emails.
+  servers:
+  - http://localhost:9001
+  title: ChatGPT Phishing Analysis Plugin
+  version: 0.1.1
+openapi: 3.0.2
+paths:
+  /api/v1/mxtoolbox/dmarc-spf-dkim-mxtoolbox-checker:
+    post:
+      description: Query URL to retrieve DMARC, SPF, and DKIM information from evtx_parser.
+      operationId: dmarc_spf_dkim_mxtoolbox_checker_api_v1_mxtoolbox_dmarc_spf_dkim_mxtoolbox_checker_post
+      parameters:
+      - in: query
+        name: tld
+        required: true
+        schema:
+          title: Tld
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                title: Response Dmarc Spf Dkim Mxtoolbox Checker Api V1 Mxtoolbox
+                  Dmarc Spf Dkim Mxtoolbox Checker Post
+                type: object
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Dmarc Spf Dkim Mxtoolbox Checker
