@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from string import Template
 from fastapi import Request, Response
 from fastapi.staticfiles import StaticFiles
-from app.api.v1.endpoints.evtx_parser.evtx_parser import router as mxtoolbox_router
+from app.api.v1.endpoints.evtx_parser.evtx_parser import router as evtx_parser_router
 import os
 
 # Get the parent directory of the current file
@@ -43,7 +43,7 @@ main_app.add_middleware(
     allow_headers=["*"],
 )
 
-main_app.include_router(mxtoolbox_router, prefix="/api/v1/evtx_parser")
+main_app.include_router(evtx_parser_router, prefix="/api/v1/evtx")
 
 main_app.mount("/static", StaticFiles(directory="static"), name="static")
 

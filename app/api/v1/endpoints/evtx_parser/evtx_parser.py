@@ -9,9 +9,10 @@ router = APIRouter()
 
 @router.post("/evtx-parser",
              description="Parses EVTX files provided by the user.")
-async def evtx_parser_api(dir: str) -> None:
+async def evtx_parser_api(directory: str) -> None:
     try:
-        evtx_parser(dir)
+        print(directory)
+        evtx_parser(directory)
         #return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
