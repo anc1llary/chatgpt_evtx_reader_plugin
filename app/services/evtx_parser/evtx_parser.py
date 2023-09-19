@@ -3,7 +3,8 @@ from http.client import HTTPException
 
 from evtx import PyEvtxParser
 
-
+## instead of parsing and displaying the entire log, review suspicious event IDs or commonly known IDs and output those.
+## give an option to allow for the parsing of the entire data
 # adapted from https://github.com/omerbenamram/pyevtx-rs
 def evtx_parser(evtx_path: str) -> None:
 
