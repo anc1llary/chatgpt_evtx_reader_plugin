@@ -11,10 +11,8 @@ router = APIRouter()
 @router.post("/evtx-parser", description="Reads, parses, and presents EVTX files as JSON data located in evtx folder.")
 async def evtx_parser_api(file_name: str, timestamp_start: str, timestamp_end: str):
     try:
-        print("test")
-        event_data = evtx_parser(file_name, timestamp_start, timestamp_end)
 
-        print(event_data)
+        event_data = evtx_parser(file_name, timestamp_start, timestamp_end)
 
         return event_data
 
