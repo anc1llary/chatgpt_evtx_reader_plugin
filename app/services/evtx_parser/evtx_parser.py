@@ -10,19 +10,30 @@ from evtx import PyEvtxParser
 # https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/tree/master
 # adapted from https://github.com/omerbenamram/pyevtx-rs
 
-def evtx_parser(file_name: str, timestamp_start="", timestamp_end="") -> Union[
-        tuple[list[Any], list[ValueError]], list[Any]]:
+event_codes = {
+    "Windows Event ID 4624 - Successful logon": 4624,
+    "Windows Event ID 4625 - Failed logon attempt": 4625,
+    "Windows Event ID 4634 - User logoff": 4634,
+    "Windows Event ID 4648 - New logon session created": 4648,
+    "Windows Event ID 4688 - New process creation": 4688,
+    "Sysmon Event ID 1 - Process creation": 1,
+    "Sysmon Event ID 3 - Network connection": 3,
+    "Sysmon Event ID 7 - Image loaded": 7,
+    "Sysmon Event ID 8 - CreateRemoteThread": 8,
+    "PowerShell Module Logging (Event ID 4103) - PowerShell module loaded": 4103,
+    "PowerShell ScriptBlock Logging (Event ID 4104) - PowerShell script block executed": 4104,
+    "PowerShell Transcription (Event ID 400) - PowerShell session transcript": 400,
+    "Security Log Event ID 4689 - Process termination": 4689,
+    "Security Log Event ID 4697 - Service creation": 4697,
+    "Security Log Event ID 4702 - User rights altered": 4702
+}
+
+def evtx_parser(file_name: str, timestamp_start="", timestamp_end="", known_event_ids=False):
     try:
 
-        # Get the directory of the current Python script
         script_dir = os.path.dirname(os.path.abspath("evtx"))
-
-        # Construct the relative path to the evtx folder
         evtx_dir = os.path.join(script_dir, "evtx")
-
-        # Construct the full path to the evtx file
         full_path = os.path.join(evtx_dir, file_name)
-        print(full_path)
 
         parser = PyEvtxParser(full_path, number_of_threads=0)
 
@@ -31,7 +42,11 @@ def evtx_parser(file_name: str, timestamp_start="", timestamp_end="") -> Union[
         if timestamp_start is not "":
             timestamp_start = datetime.strptime(timestamp_start, "%Y-%m-%d %H:%M:%S.%f")
         if timestamp_end is not "":
-            timestamp_end = datetime.strptime(timestamp_end, "%Y-%m-%d %H:%M:%S.%f")
+            try:
+                timestamp_end = datetime.strptime(timestamp_end, "%Y-%m-%d %H:%M:%S.%f %Z")
+            except ValueError as e:
+                print(f"Error: {e}")
+                timestamp_end = ""
 
         for record in parser.records_json():
             try:
