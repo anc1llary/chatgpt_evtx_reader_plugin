@@ -1,4 +1,5 @@
 import json
+from typing import List, Any, Optional
 
 from fastapi import HTTPException
 from fastapi import APIRouter
@@ -8,12 +9,14 @@ router = APIRouter()
 
 
 @router.post("/evtx-parser",
-             description="Parses EVTX files provided by the user.")
-async def evtx_parser_api(directory: str) -> None:
+             description="Reads, parses, and presents EVTX files as JSON data located in evtx folder.")
+async def evtx_parser_api(file_name: str, timestamp_start, timestamp_end) -> list[Any]:
     try:
-        print(directory)
-        evtx_parser(directory)
-        #return response
+
+        event_data = evtx_parser(file_name, timestamp_start, timestamp_end)
+
+        return event_data
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

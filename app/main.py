@@ -1,11 +1,12 @@
 import tomli
 import yaml
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from string import Template
 from fastapi import Request, Response
 from fastapi.staticfiles import StaticFiles
+
 from app.api.v1.endpoints.evtx_parser.evtx_parser import router as evtx_parser_router
 import os
 
@@ -47,10 +48,11 @@ main_app.include_router(evtx_parser_router, prefix="/api/v1/evtx")
 
 main_app.mount("/static", StaticFiles(directory="static"), name="static")
 
+main_app.mount("/evtx", StaticFiles(directory="evtx"), name="static")
 
-# Set up required files in .well-known directory
 
-@main_app.get("/.well-known/ai-plugin.json", include_in_schema="False",
+# Set up required files in .well-known directory/
+@main_app.get("/.well-known/ai-plugin.json", include_in_schema=False,
               description="Serves the ai-plugin.json file to chatgpt.")
 async def get_ai_plugin(request: Request) -> Response:
     """
@@ -66,7 +68,8 @@ async def get_ai_plugin(request: Request) -> Response:
     Response: A FastAPI Response object containing the modified ai-plugin.json content.
 
     """
-    with open("../ai-plugin.json", "r") as f:
+
+    with open(os.path.join(parent_dir, "../ai-plugin.json"), "r") as f:
         content_str = f.read()
 
     content_str = Template(content_str).safe_substitute(PLUGIN_HOSTNAME=PLUGIN_HOSTNAME)
