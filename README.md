@@ -3,7 +3,7 @@
 
 ## Disclaimer
 
-Data you put into ChatGPT is not private.  The nature of logs like this will almost always cause concern for privacy.  Consider this plugin a proof-of-concept of what is possible and where we're headed with AI.  Only use this plugin in circumstances where you do not care if someone else could potentially have access to the data you are sending.
+Data you put into ChatGPT **is not private**.  The nature of logs like this will almost always cause concern for privacy.  Consider this plugin a proof-of-concept of what is possible and where we're headed with AI.  Only use this plugin in circumstances where you do not care if someone else could potentially have access to the data you are sending.
 
 ## Installation
 
