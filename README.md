@@ -30,6 +30,12 @@ end date
 
 The start and end date is not necessary but is recommended explained in limitations.
 
+## Prompts
+
+- Give me events that are commonly associated with [insert MITRE technique here].
+- List process execution events.
+- Display events through [start time] and [end time] (note: these must be timestamps with millisecond precision as shown above).
+
 ## Limitations
 
 - The EVTX parsing library does not always parse the date properly, causing date boundaries to not properly work.
