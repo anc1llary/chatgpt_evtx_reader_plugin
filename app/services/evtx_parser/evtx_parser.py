@@ -1,4 +1,5 @@
 import os
+import json
 from datetime import datetime
 from typing import List, Any, Union, Tuple
 from pathlib import Path
@@ -9,6 +10,8 @@ from evtx import PyEvtxParser
 # give an option to allow for the parsing of the entire data
 # https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/tree/master
 # adapted from https://github.com/omerbenamram/pyevtx-rs
+# fix the formatting of the output data to pretty json
+# add support for multiple files
 
 event_codes = {
     "Windows Event ID 4624 - Successful logon": 4624,
@@ -39,9 +42,9 @@ def evtx_parser(file_name: str, timestamp_start="", timestamp_end="", known_even
 
         event_data = []
         preserved_error_data = []
-        if timestamp_start is not "":
+        if timestamp_start != "":
             timestamp_start = datetime.strptime(timestamp_start, "%Y-%m-%d %H:%M:%S.%f")
-        if timestamp_end is not "":
+        if timestamp_end != "":
             try:
                 timestamp_end = datetime.strptime(timestamp_end, "%Y-%m-%d %H:%M:%S.%f %Z")
             except ValueError as e:
@@ -55,8 +58,23 @@ def evtx_parser(file_name: str, timestamp_start="", timestamp_end="", known_even
                     record_timestamp = datetime.strptime(record_timestamp_str, "%Y-%m-%d %H:%M:%S.%f %Z")
 
                     if (timestamp_start is "" or timestamp_end is "") or (
-                            (timestamp_start is not "" and timestamp_end is not "") and
+                            (timestamp_start != "" and timestamp_end != "") and
                             (timestamp_start <= record_timestamp <= timestamp_end)):
+                        
+                        #record_data = record['data']
+                        #record_data_json = json.loads(record_data)
+
+                        #print(record_data_json['data']['EventID'])
+
+                        ## issues grabbing [EventID] for some reason, likely because it is a mapper for a rust program...
+
+                        # if known_event_ids == True:
+                        #    for event_id in event_codes.items():
+                        #        if record['data'] in event_id:
+                        #            event_data.append(record['data'])
+                        #            print(event_data)
+                        #            print(known_event_ids)
+                        #    else:      
                         event_data.append(record['data'])
             except ValueError as e:
                 print(f"Error parsing record: {e}")

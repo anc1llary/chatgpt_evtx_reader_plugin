@@ -46,3 +46,5 @@ The start and end date is not necessary but is recommended explained in limitati
 
 - Create a check for errors with date-time and default to the nearest date that is in proper format.
 - Implement Local LLM  and create functionality to parse larger event logs into blocks.
+
+## Sources

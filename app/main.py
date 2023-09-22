@@ -31,7 +31,7 @@ main_app = FastAPI(
 )
 # Enable CORS
 origins = [
-    "http://localhost:9000",
+    "http://localhost:9001",
     "https://chat.openai.com",
 ]
 
