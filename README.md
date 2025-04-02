@@ -1,6 +1,10 @@
 # chatgpt_evtx_reader_plugin
  This plugin parses and reads EVTX files providing enrichment for digital forensics and incident response.
 
+## Update
+
+This was a small project during OpenAI's early iteration of what became GPT's.  Consider this project deprecated.
+
 ## Disclaimer
 
 Data you put into ChatGPT **is not private**.  The nature of logs like this will almost always cause concern for privacy.  Consider this plugin a proof-of-concept of what is possible and where we're headed with AI.  Only use this plugin in circumstances where you do not care if someone else could potentially have access to the data you are sending.
